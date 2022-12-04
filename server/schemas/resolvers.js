@@ -47,12 +47,12 @@ const resolvers = {
             return { token, createUser };
         },
 
-        saveBook: async (parent, { bookInput }, context) => {
+        saveBook: async (parent, { input }, context) => {
             const id = context.user._id;
             if (context.user) {
                 const savedBookInputs = await User.findOneAndUpdate(
                     { _id: id },
-                    { $addToSet: { savedBooksToObject: bookInput } },
+                    { $addToSet: { savedBooksToObject: input } },
                     { new: true }
                 );
                 return savedBookInputs;
