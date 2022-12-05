@@ -9,7 +9,7 @@ import Navbar from './components/Navbar';
 
 // establish the connection to the backend graphQL
 const httpLink = createHttpLink({
-  uri: '/graphql'
+  uri: '/graphql',
 });
 
 // this function will act as middleware that will retrieve the token for us and combine it with existing httpLink
@@ -24,7 +24,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.cont(httpLink),
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
