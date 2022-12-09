@@ -10,7 +10,7 @@ const resolvers = {
         me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
-                    .select('__v -password')
+                    .select('-__v -password')
 
                 return userData;
             }
@@ -42,17 +42,17 @@ const resolvers = {
         },
 
         addUser: async (parent, args) => {
-            const createUser = await User.create(args);
-            const token = signToken(createUser);
-            return { token, createUser };
+            const user = await User.create(args);
+            const token = signToken(user);
+            return { token, user };
         },
 
         saveBook: async (parent, { input }, context) => {
             const id = context.user._id;
             if (context.user) {
-                const savedBookInputs = await User.findOneAndUpdate(
+                const savedBookInputs = await User.findByIdAndUpdate(
                     { _id: id },
-                    { $addToSet: { savedBooksToObject: input } },
+                    { $addToSet: { savedBooks: input } },
                     { new: true }
                 );
                 return savedBookInputs;
@@ -61,15 +61,16 @@ const resolvers = {
             throw new AuthenticationError('Incorrect credentials!');
         },
 
-        removeBook: async (parent, { removeBookInput }, context) => {
+        removeBook: async (parent, { bookId }, context) => {
             const id = context.user._id;
+            console.log(id, bookId)
             if (context.user) {
-                const removedBookInputs = await User.findOneAndUpdate(
+                const removeTheBook = await User.findOneAndUpdate(
                     { _id: id },
-                    { $pull: { removeBooksFromObject: removeBookInput } },
+                    { $pull: { savedBooks: { bookId } } },
                     { new: true }
                 );
-                return removedBookInputs;
+                return removeTheBook;
             }
 
             throw new AuthenticationError('Incorrect credentials, please log in!');

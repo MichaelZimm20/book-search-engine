@@ -1,7 +1,7 @@
 import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
-import { getMe, deleteBook } from '../utils/API';
+
 import Auth from '../utils/auth';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
@@ -12,20 +12,21 @@ const SavedBooks = () => {
   
   // useQuery hook to make query request for GET_ME
   const { loading, data } = useQuery(GET_ME);
-
-  // desctructure data from useQuery hook and assign it to new variable name: userData
+  console.log(data);
+  // destructure data from useQuery hook and assign it to new variable name: userData
   const userData = data?.me || [];
+  
 
   // useMutation for Save_Book mutataion in handleSaveBook function
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    // const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-    if (!token) {
-      return false;
-    }
+    // if (!token) {
+    //   return false;
+    // }
 
     try {
       const { data } = await removeBook({variables: { bookId }});
@@ -58,7 +59,7 @@ const SavedBooks = () => {
       <Container>
         <h2>
           {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
+            ? `Viewing ${userData.savedBooks?.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <CardColumns>
