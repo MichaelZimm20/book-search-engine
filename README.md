@@ -34,14 +34,13 @@ The Book Search Engine application is a fully functioning Google Book API search
  <br/><br/>
  ![Book Search Engine Screenshots](assets/images/Picture3.png )
  <br/><br/>
-  ![Book Search Engine Screenshots](assets/images/Picture4.png )
- <br/><br/>
+
 
 
  ## Important Links 
 * GitHub Link: https://github.com/MichaelZimm20/book-search-engine
 
-* Heroku Link: 
+* Heroku Link: https://book-search-engine-max-pro.herokuapp.com/
 
 
 ## Questions 
